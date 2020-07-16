@@ -1,0 +1,127 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.madd.template.mapper.RolePermissionMapper">
+   <resultMap id="BaseResultMap" type="com.madd.template.pojo.RolePermission">
+      <result column="id" property="id"/>
+      <result column="role_id" property="roleId"/>
+      <result column="permission_id" property="permissionId"/>
+   </resultMap>
+   
+   <sql id="all">
+    id,role_id,permission_id
+   </sql>
+   
+    
+   <select id="findById" resultMap="BaseResultMap" >
+	select <include refid="all" />  from test_role_permission  where id = #{id}    limit 1
+   </select>
+   
+   <insert id="insertBatch"  parameterType="java.util.List">  
+    insert into test_role_permission  
+    (
+     	id,role_id,permission_id
+    )
+    values  
+    <foreach collection="list" item="item" index="index" separator="," >  
+      (
+            #{item.id},
+         
+            #{item.roleId},
+         
+            #{item.permissionId}
+         
+      )
+    </foreach>  
+   </insert> 
+   
+   
+   <insert id="insert">
+	  insert into test_role_permission   
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+         <if test="id != null ">id,</if>
+         <if test="roleId != null ">role_id,</if>
+         <if test="permissionId != null ">permission_id,</if>
+      </trim>
+      <trim prefix=" values (" suffix=")" suffixOverrides=",">
+          <if test="id != null">#{id},</if>
+          <if test="roleId != null">#{roleId},</if>
+          <if test="permissionId != null">#{permissionId},</if>
+      </trim>
+   </insert>
+   
+    <update id="update"> 
+      update test_role_permission 
+       <set>
+          <if test="id  != null ">id = #{id},</if>
+          <if test="roleId  != null ">role_id = #{roleId},</if>
+          <if test="permissionId  != null ">permission_id = #{permissionId},</if>
+      </set>
+      where  id = #{id} 
+   </update>
+   
+   
+   <update id="updateSelective"> 
+      update test_role_permission 
+       <set>
+          <if test="id  != null ">id = #{id},</if>
+          <if test="roleId  != null ">role_id = #{roleId},</if>
+          <if test="permissionId  != null ">permission_id = #{permissionId},</if>
+      </set>
+	 <trim prefix="where" prefixOverrides="and |or "> 
+          <if test="id  != null ">and id = #{id}</if>
+          <if test="roleId  != null ">and role_id = #{roleId}</if>
+          <if test="permissionId  != null ">and permission_id = #{permissionId}</if>
+	 </trim>
+   </update>
+   
+   
+   <select id="findByNamedParam" resultMap="BaseResultMap">
+	select <include refid="all" />  from  test_role_permission  
+	<trim prefix="where" prefixOverrides="and |or "> 
+          <if test="id  != null ">and id = #{id}</if>
+          <if test="roleId  != null ">and role_id = #{roleId}</if>
+          <if test="permissionId  != null ">and permission_id = #{permissionId}</if>
+	</trim>
+    order  by   id   desc    limit 1
+   </select>
+   
+   <select id="findByNamedParamList" resultMap="BaseResultMap">
+	select <include refid="all" />  from  test_role_permission   
+	<trim prefix="where" prefixOverrides="and |or "> 
+          <if test="id  != null ">and id = #{id}</if>
+          <if test="roleId  != null ">and role_id = #{roleId}</if>
+          <if test="permissionId  != null ">and permission_id = #{permissionId}</if>
+	</trim>
+    order  by  id  desc    
+   </select>
+    
+   <delete id="delete">
+	delete  from  test_role_permission   where   id = #{id} 
+   </delete>
+	
+   <update id="remove">
+	update test_role_permission  set  status = '1'  where   id = #{id} 
+   </update>
+   
+   
+   <select id="findPageInfo" resultMap="BaseResultMap">
+     select  <include refid="all" />   from test_role_permission 
+     <trim prefix="where" prefixOverrides="and |or "> 
+          <if test=" id  != null ">and id = #{id}</if>
+          <if test=" roleId  != null ">and role_id = #{roleId}</if>
+          <if test=" permissionId  != null ">and permission_id = #{permissionId}</if>
+	 </trim>
+     order  by id   desc  limit #{startRow},#{pageSize}
+   </select>
+   
+   <select id="countPageInfo"  resultType="java.lang.Integer">
+	select  count(1) from  test_role_permission   
+	<trim prefix="where" prefixOverrides="and |or "> 
+          <if test="id  != null ">and id = #{id}</if>
+          <if test="roleId  != null ">and role_id = #{roleId}</if>
+          <if test="permissionId  != null ">and permission_id = #{permissionId}</if>
+	</trim>
+   </select>
+   
+   
+</mapper>

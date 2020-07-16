@@ -1,0 +1,199 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.madd.template.mapper.UserMapper">
+   <resultMap id="BaseResultMap" type="com.madd.template.pojo.User">
+      <result column="id" property="id"/>
+      <result column="username" property="username"/>
+      <result column="password" property="password"/>
+      <result column="nickname" property="nickname"/>
+      <result column="phone" property="phone"/>
+      <result column="del_flag" property="delFlag"/>
+      <result column="email" property="email"/>
+      <result column="created" property="created"/>
+      <result column="updated" property="updated"/>
+   </resultMap>
+   
+   <sql id="all">
+    id,username,password,nickname,phone,del_flag,email,created,updated
+   </sql>
+   
+    
+   <select id="findById" resultMap="BaseResultMap" >
+	select <include refid="all" />  from test_user  where id = #{id}    limit 1
+   </select>
+   
+   <insert id="insertBatch"  parameterType="java.util.List">  
+    insert into test_user  
+    (
+     	id,username,password,nickname,phone,del_flag,email,created,updated
+    )
+    values  
+    <foreach collection="list" item="item" index="index" separator="," >  
+      (
+            #{item.id},
+         
+            #{item.username},
+         
+            #{item.password},
+         
+            #{item.nickname},
+         
+            #{item.phone},
+         
+            #{item.delFlag},
+         
+            #{item.email},
+         
+            #{item.created},
+         
+            #{item.updated}
+         
+      )
+    </foreach>  
+   </insert> 
+   
+   
+   <insert id="insert">
+	  insert into test_user   
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+         <if test="id != null ">id,</if>
+         <if test="username != null ">username,</if>
+         <if test="password != null ">password,</if>
+         <if test="nickname != null ">nickname,</if>
+         <if test="phone != null ">phone,</if>
+         <if test="delFlag != null ">del_flag,</if>
+         <if test="email != null ">email,</if>
+         <if test="created != null ">created,</if>
+         <if test="updated != null ">updated,</if>
+      </trim>
+      <trim prefix=" values (" suffix=")" suffixOverrides=",">
+          <if test="id != null">#{id},</if>
+          <if test="username != null">#{username},</if>
+          <if test="password != null">#{password},</if>
+          <if test="nickname != null">#{nickname},</if>
+          <if test="phone != null">#{phone},</if>
+          <if test="delFlag != null">#{delFlag},</if>
+          <if test="email != null">#{email},</if>
+          <if test="created != null">#{created},</if>
+          <if test="updated != null">#{updated},</if>
+      </trim>
+   </insert>
+   
+    <update id="update"> 
+      update test_user 
+       <set>
+          <if test="id  != null ">id = #{id},</if>
+          <if test="username  != null ">username = #{username},</if>
+          <if test="password  != null ">password = #{password},</if>
+          <if test="nickname  != null ">nickname = #{nickname},</if>
+          <if test="phone  != null ">phone = #{phone},</if>
+          <if test="delFlag  != null ">del_flag = #{delFlag},</if>
+          <if test="email  != null ">email = #{email},</if>
+          <if test="created  != null ">created = #{created},</if>
+          <if test="updated  != null ">updated = #{updated},</if>
+      </set>
+      where  id = #{id} 
+   </update>
+   
+   
+   <update id="updateSelective"> 
+      update test_user 
+       <set>
+          <if test="id  != null ">id = #{id},</if>
+          <if test="username  != null ">username = #{username},</if>
+          <if test="password  != null ">password = #{password},</if>
+          <if test="nickname  != null ">nickname = #{nickname},</if>
+          <if test="phone  != null ">phone = #{phone},</if>
+          <if test="delFlag  != null ">del_flag = #{delFlag},</if>
+          <if test="email  != null ">email = #{email},</if>
+          <if test="created  != null ">created = #{created},</if>
+          <if test="updated  != null ">updated = #{updated},</if>
+      </set>
+	 <trim prefix="where" prefixOverrides="and |or "> 
+          <if test="id  != null ">and id = #{id}</if>
+          <if test="username  != null ">and username = #{username}</if>
+          <if test="password  != null ">and password = #{password}</if>
+          <if test="nickname  != null ">and nickname = #{nickname}</if>
+          <if test="phone  != null ">and phone = #{phone}</if>
+          <if test="delFlag  != null ">and del_flag = #{delFlag}</if>
+          <if test="email  != null ">and email = #{email}</if>
+          <if test="created  != null ">and created = #{created}</if>
+          <if test="updated  != null ">and updated = #{updated}</if>
+	 </trim>
+   </update>
+   
+   
+   <select id="findByNamedParam" resultMap="BaseResultMap">
+	select <include refid="all" />  from  test_user  
+	<trim prefix="where" prefixOverrides="and |or "> 
+          <if test="id  != null ">and id = #{id}</if>
+          <if test="username  != null ">and username = #{username}</if>
+          <if test="password  != null ">and password = #{password}</if>
+          <if test="nickname  != null ">and nickname = #{nickname}</if>
+          <if test="phone  != null ">and phone = #{phone}</if>
+          <if test="delFlag  != null ">and del_flag = #{delFlag}</if>
+          <if test="email  != null ">and email = #{email}</if>
+          <if test="created  != null ">and created = #{created}</if>
+          <if test="updated  != null ">and updated = #{updated}</if>
+	</trim>
+    order  by   id   desc    limit 1
+   </select>
+   
+   <select id="findByNamedParamList" resultMap="BaseResultMap">
+	select <include refid="all" />  from  test_user   
+	<trim prefix="where" prefixOverrides="and |or "> 
+          <if test="id  != null ">and id = #{id}</if>
+          <if test="username  != null ">and username = #{username}</if>
+          <if test="password  != null ">and password = #{password}</if>
+          <if test="nickname  != null ">and nickname = #{nickname}</if>
+          <if test="phone  != null ">and phone = #{phone}</if>
+          <if test="delFlag  != null ">and del_flag = #{delFlag}</if>
+          <if test="email  != null ">and email = #{email}</if>
+          <if test="created  != null ">and created = #{created}</if>
+          <if test="updated  != null ">and updated = #{updated}</if>
+	</trim>
+    order  by  id  desc    
+   </select>
+    
+   <delete id="delete">
+	delete  from  test_user   where   id = #{id} 
+   </delete>
+	
+   <update id="remove">
+	update test_user  set  status = '1'  where   id = #{id} 
+   </update>
+   
+   
+   <select id="findPageInfo" resultMap="BaseResultMap">
+     select  <include refid="all" />   from test_user 
+     <trim prefix="where" prefixOverrides="and |or "> 
+          <if test=" id  != null ">and id = #{id}</if>
+          <if test=" username  != null ">and username = #{username}</if>
+          <if test=" password  != null ">and password = #{password}</if>
+          <if test=" nickname  != null ">and nickname = #{nickname}</if>
+          <if test=" phone  != null ">and phone = #{phone}</if>
+          <if test=" delFlag  != null ">and del_flag = #{delFlag}</if>
+          <if test=" email  != null ">and email = #{email}</if>
+          <if test=" created  != null ">and created = #{created}</if>
+          <if test=" updated  != null ">and updated = #{updated}</if>
+	 </trim>
+     order  by id   desc  limit #{startRow},#{pageSize}
+   </select>
+   
+   <select id="countPageInfo"  resultType="java.lang.Integer">
+	select  count(1) from  test_user   
+	<trim prefix="where" prefixOverrides="and |or "> 
+          <if test="id  != null ">and id = #{id}</if>
+          <if test="username  != null ">and username = #{username}</if>
+          <if test="password  != null ">and password = #{password}</if>
+          <if test="nickname  != null ">and nickname = #{nickname}</if>
+          <if test="phone  != null ">and phone = #{phone}</if>
+          <if test="delFlag  != null ">and del_flag = #{delFlag}</if>
+          <if test="email  != null ">and email = #{email}</if>
+          <if test="created  != null ">and created = #{created}</if>
+          <if test="updated  != null ">and updated = #{updated}</if>
+	</trim>
+   </select>
+   
+   
+</mapper>

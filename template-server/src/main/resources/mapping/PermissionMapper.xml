@@ -1,0 +1,132 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.madd.template.mapper.PermissionMapper">
+   <resultMap id="BaseResultMap" type="com.madd.template.pojo.Permission">
+      <result column="id" property="id"/>
+      <result column="permission_code" property="permissionCode"/>
+      <result column="permission_name" property="permissionName"/>
+   </resultMap>
+   
+   <sql id="all">
+    id,permission_code,permission_name
+   </sql>
+   
+    
+   <select id="findById" resultMap="BaseResultMap" >
+	select <include refid="all" />  from test_permission  where id = #{id}    limit 1
+   </select>
+   
+   <insert id="insertBatch"  parameterType="java.util.List">  
+    insert into test_permission  
+    (
+     	id,permission_code,permission_name
+    )
+    values  
+    <foreach collection="list" item="item" index="index" separator="," >  
+      (
+            #{item.id},
+         
+            #{item.permissionCode},
+         
+            #{item.permissionName}
+         
+      )
+    </foreach>  
+   </insert> 
+   
+   
+   <insert id="insert">
+	  insert into test_permission   
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+         <if test="id != null ">id,</if>
+         <if test="permissionCode != null ">permission_code,</if>
+         <if test="permissionName != null ">permission_name,</if>
+      </trim>
+      <trim prefix=" values (" suffix=")" suffixOverrides=",">
+          <if test="id != null">#{id},</if>
+          <if test="permissionCode != null">#{permissionCode},</if>
+          <if test="permissionName != null">#{permissionName},</if>
+      </trim>
+   </insert>
+   
+    <update id="update"> 
+      update test_permission 
+       <set>
+          <if test="id  != null ">id = #{id},</if>
+          <if test="permissionCode  != null ">permission_code = #{permissionCode},</if>
+          <if test="permissionName  != null ">permission_name = #{permissionName},</if>
+      </set>
+      where  id = #{id} 
+   </update>
+   
+   
+   <update id="updateSelective"> 
+      update test_permission 
+       <set>
+          <if test="id  != null ">id = #{id},</if>
+          <if test="permissionCode  != null ">permission_code = #{permissionCode},</if>
+          <if test="permissionName  != null ">permission_name = #{permissionName},</if>
+      </set>
+	 <trim prefix="where" prefixOverrides="and |or "> 
+          <if test="id  != null ">and id = #{id}</if>
+          <if test="permissionCode  != null ">and permission_code = #{permissionCode}</if>
+          <if test="permissionName  != null ">and permission_name = #{permissionName}</if>
+	 </trim>
+   </update>
+   
+   
+   <select id="findByNamedParam" resultMap="BaseResultMap">
+	select <include refid="all" />  from  test_permission  
+	<trim prefix="where" prefixOverrides="and |or "> 
+          <if test="id  != null ">and id = #{id}</if>
+          <if test="permissionCode  != null ">and permission_code = #{permissionCode}</if>
+          <if test="permissionName  != null ">and permission_name = #{permissionName}</if>
+	</trim>
+    order  by   id   desc    limit 1
+   </select>
+   
+   <select id="findByNamedParamList" resultMap="BaseResultMap">
+	select <include refid="all" />  from  test_permission   
+	<trim prefix="where" prefixOverrides="and |or "> 
+          <if test="id  != null ">and id = #{id}</if>
+          <if test="permissionCode  != null ">and permission_code = #{permissionCode}</if>
+          <if test="permissionName  != null ">and permission_name = #{permissionName}</if>
+	</trim>
+    order  by  id  desc    
+   </select>
+    
+   <delete id="delete">
+	delete  from  test_permission   where   id = #{id} 
+   </delete>
+	
+   <update id="remove">
+	update test_permission  set  status = '1'  where   id = #{id} 
+   </update>
+   
+   
+   <select id="findPageInfo" resultMap="BaseResultMap">
+     select  <include refid="all" />   from test_permission 
+     <trim prefix="where" prefixOverrides="and |or "> 
+          <if test=" id  != null ">and id = #{id}</if>
+          <if test=" permissionCode  != null ">and permission_code = #{permissionCode}</if>
+          <if test=" permissionName  != null ">and permission_name = #{permissionName}</if>
+	 </trim>
+     order  by id   desc  limit #{startRow},#{pageSize}
+   </select>
+   
+   <select id="countPageInfo"  resultType="java.lang.Integer">
+	select  count(1) from  test_permission   
+	<trim prefix="where" prefixOverrides="and |or "> 
+          <if test="id  != null ">and id = #{id}</if>
+          <if test="permissionCode  != null ">and permission_code = #{permissionCode}</if>
+          <if test="permissionName  != null ">and permission_name = #{permissionName}</if>
+	</trim>
+   </select>
+
+    <select id="findByUserName" resultMap="BaseResultMap">
+        select p.* from
+        test_user u,test_user_role ur,test_role r,test_role_permission rp,test_permission p
+        where u.id=ur.user_id and ur.role_id=r.id and r.id=rp.role_id and rp.permission_id=p.id and u.username=#{0}
+    </select>
+   
+</mapper>

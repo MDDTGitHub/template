@@ -1,0 +1,127 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.madd.template.mapper.UserRoleMapper">
+   <resultMap id="BaseResultMap" type="com.madd.template.pojo.UserRole">
+      <result column="id" property="id"/>
+      <result column="user_id" property="userId"/>
+      <result column="role_id" property="roleId"/>
+   </resultMap>
+   
+   <sql id="all">
+    id,user_id,role_id
+   </sql>
+   
+    
+   <select id="findById" resultMap="BaseResultMap" >
+	select <include refid="all" />  from test_user_role  where id = #{id}    limit 1
+   </select>
+   
+   <insert id="insertBatch"  parameterType="java.util.List">  
+    insert into test_user_role  
+    (
+     	id,user_id,role_id
+    )
+    values  
+    <foreach collection="list" item="item" index="index" separator="," >  
+      (
+            #{item.id},
+         
+            #{item.userId},
+         
+            #{item.roleId}
+         
+      )
+    </foreach>  
+   </insert> 
+   
+   
+   <insert id="insert">
+	  insert into test_user_role   
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+         <if test="id != null ">id,</if>
+         <if test="userId != null ">user_id,</if>
+         <if test="roleId != null ">role_id,</if>
+      </trim>
+      <trim prefix=" values (" suffix=")" suffixOverrides=",">
+          <if test="id != null">#{id},</if>
+          <if test="userId != null">#{userId},</if>
+          <if test="roleId != null">#{roleId},</if>
+      </trim>
+   </insert>
+   
+    <update id="update"> 
+      update test_user_role 
+       <set>
+          <if test="id  != null ">id = #{id},</if>
+          <if test="userId  != null ">user_id = #{userId},</if>
+          <if test="roleId  != null ">role_id = #{roleId},</if>
+      </set>
+      where  id = #{id} 
+   </update>
+   
+   
+   <update id="updateSelective"> 
+      update test_user_role 
+       <set>
+          <if test="id  != null ">id = #{id},</if>
+          <if test="userId  != null ">user_id = #{userId},</if>
+          <if test="roleId  != null ">role_id = #{roleId},</if>
+      </set>
+	 <trim prefix="where" prefixOverrides="and |or "> 
+          <if test="id  != null ">and id = #{id}</if>
+          <if test="userId  != null ">and user_id = #{userId}</if>
+          <if test="roleId  != null ">and role_id = #{roleId}</if>
+	 </trim>
+   </update>
+   
+   
+   <select id="findByNamedParam" resultMap="BaseResultMap">
+	select <include refid="all" />  from  test_user_role  
+	<trim prefix="where" prefixOverrides="and |or "> 
+          <if test="id  != null ">and id = #{id}</if>
+          <if test="userId  != null ">and user_id = #{userId}</if>
+          <if test="roleId  != null ">and role_id = #{roleId}</if>
+	</trim>
+    order  by   id   desc    limit 1
+   </select>
+   
+   <select id="findByNamedParamList" resultMap="BaseResultMap">
+	select <include refid="all" />  from  test_user_role   
+	<trim prefix="where" prefixOverrides="and |or "> 
+          <if test="id  != null ">and id = #{id}</if>
+          <if test="userId  != null ">and user_id = #{userId}</if>
+          <if test="roleId  != null ">and role_id = #{roleId}</if>
+	</trim>
+    order  by  id  desc    
+   </select>
+    
+   <delete id="delete">
+	delete  from  test_user_role   where   id = #{id} 
+   </delete>
+	
+   <update id="remove">
+	update test_user_role  set  status = '1'  where   id = #{id} 
+   </update>
+   
+   
+   <select id="findPageInfo" resultMap="BaseResultMap">
+     select  <include refid="all" />   from test_user_role 
+     <trim prefix="where" prefixOverrides="and |or "> 
+          <if test=" id  != null ">and id = #{id}</if>
+          <if test=" userId  != null ">and user_id = #{userId}</if>
+          <if test=" roleId  != null ">and role_id = #{roleId}</if>
+	 </trim>
+     order  by id   desc  limit #{startRow},#{pageSize}
+   </select>
+   
+   <select id="countPageInfo"  resultType="java.lang.Integer">
+	select  count(1) from  test_user_role   
+	<trim prefix="where" prefixOverrides="and |or "> 
+          <if test="id  != null ">and id = #{id}</if>
+          <if test="userId  != null ">and user_id = #{userId}</if>
+          <if test="roleId  != null ">and role_id = #{roleId}</if>
+	</trim>
+   </select>
+   
+   
+</mapper>
