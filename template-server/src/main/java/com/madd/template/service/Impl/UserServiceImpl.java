@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
         }catch (AuthenticationException e){
             e.printStackTrace();
             result.setSuccess(false);
-            result.setMessage("用户名和密码不正确！");
+            result.setMessage("用户名或密码不正确！");
             return result;
         }
         return result;
