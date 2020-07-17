@@ -6,6 +6,9 @@
         <span v-for="item in roles" :key="item" class="pan-info-roles">{{ item }}</span>
       </pan-thumb>
       <!-- <github-corner style="position: absolute; top: 0px; border: 0; right: 0;" /> -->
+      <el-button icon="el-icon-question" type="primary" @click.prevent.stop="guide">
+        显示指南
+      </el-button>
       <div class="info-container">
         <span class="display_name">{{ name }}</span>
         <span style="font-size:20px;padding-top:20px;display:inline-block;">Editor's Dashboard</span>
@@ -21,13 +24,16 @@
 import { mapGetters } from 'vuex'
 import PanThumb from '@/components/PanThumb'
 // import GithubCorner from '@/components/GithubCorner'
-
+import Driver from 'driver.js' // import driver.js
+import 'driver.js/dist/driver.min.css' // import driver.js css
+import steps from '../steps'
 export default {
   name: 'DashboardEditor',
   components: { PanThumb },
   data() {
     return {
-      emptyGif: 'https://wpimg.wallstcn.com/0e03b7da-db9e-4819-ba10-9016ddfdaed3'
+      emptyGif: 'https://wpimg.wallstcn.com/0e03b7da-db9e-4819-ba10-9016ddfdaed3',
+      driver: null
     }
   },
   computed: {
@@ -36,7 +42,17 @@ export default {
       'avatar',
       'roles'
     ])
+  },
+  mounted() {
+    this.driver = new Driver()
+  },
+  methods: {
+    guide() {
+      this.driver.defineSteps(steps)
+      this.driver.start()
+    }
   }
+
 }
 </script>
 

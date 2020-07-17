@@ -1,7 +1,9 @@
 <template>
   <div class="dashboard-editor-container">
     <!-- <github-corner class="github-corner" /> -->
-
+    <el-button icon="el-icon-question" type="primary" @click.prevent.stop="guide">
+      显示指南
+    </el-button>
     <panel-group @handleSetLineChartData="handleSetLineChartData" />
 
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
@@ -50,6 +52,9 @@ import BarChart from './components/BarChart'
 import TransactionTable from './components/TransactionTable'
 import TodoList from './components/TodoList'
 import BoxCard from './components/BoxCard'
+import Driver from 'driver.js' // import driver.js
+import 'driver.js/dist/driver.min.css' // import driver.js css
+import steps from '../steps'
 
 const lineChartData = {
   newVisitis: {
@@ -85,12 +90,20 @@ export default {
   },
   data() {
     return {
-      lineChartData: lineChartData.newVisitis
+      lineChartData: lineChartData.newVisitis,
+      driver: null
     }
+  },
+  mounted() {
+    this.driver = new Driver()
   },
   methods: {
     handleSetLineChartData(type) {
       this.lineChartData = lineChartData[type]
+    },
+    guide() {
+      this.driver.defineSteps(steps)
+      this.driver.start()
     }
   }
 }
