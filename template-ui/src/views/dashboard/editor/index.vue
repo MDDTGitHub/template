@@ -52,7 +52,6 @@ export default {
       this.driver.start()
     }
   }
-
 }
 </script>
 

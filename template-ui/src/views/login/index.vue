@@ -3,7 +3,10 @@
     <el-form ref="loginForm" :inline="true" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">VUE-前端脚手架</h3>
+        <h3 class="title">
+          {{ $t('login.title') }}
+        </h3>
+        <!-- <lang-select class="set-language" /> -->
       </div>
 
       <el-form-item prop="username" style="width:100%">
@@ -13,7 +16,7 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
-          placeholder="Username"
+          :placeholder="$t('login.username')"
           name="username"
           type="text"
           tabindex="1"
@@ -31,11 +34,10 @@
             ref="password"
             v-model="loginForm.password"
             :type="passwordType"
-            placeholder="Password"
+            :placeholder="$t('login.password')"
             name="password"
             tabindex="2"
             autocomplete="on"
-            style="width:70%"
             @keyup.native="checkCapslock"
             @blur="capsTooltip = false"
             @keyup.enter.native="handleLogin"
@@ -45,7 +47,6 @@
           </span>
         </el-form-item>
       </el-tooltip>
-
       <el-form-item prop="code" style="width:70%">
         <span class="svg-container">
           <i class="el-icon-key" />
@@ -63,42 +64,46 @@
       </el-form-item>
       <el-image v-show="loginForm.url != null" :lazy="true" style="margin-top:3px;height:40px;width:120px;cursor:pointer;box-sizing:border-box" :src="loginForm.url" @click="reloadCaptcha()" />
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">
+        {{ $t('login.logIn') }}
+      </el-button>
 
       <!-- <div style="position:relative">
         <div class="tips">
-          <span>Username : admin</span>
-          <span>Password : any</span>
+          <span>{{ $t('login.username') }} : admin</span>
+          <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>
         </div>
         <div class="tips">
-          <span style="margin-right:18px;">Username : editor</span>
-          <span>Password : any</span>
+          <span style="margin-right:18px;">
+            {{ $t('login.username') }} : editor
+          </span>
+          <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>
         </div>
 
         <el-button class="thirdparty-button" type="primary" @click="showDialog=true">
-          Or connect with
+          {{ $t('login.thirdparty') }}
         </el-button>
       </div> -->
     </el-form>
 
-    <!-- <el-dialog title="Or connect with" :visible.sync="showDialog">
-      Can not be simulated on local, so please combine you own business simulation! ! !
+    <!-- <el-dialog :title="$t('login.thirdparty')" :visible.sync="showDialog">
+      {{ $t('login.thirdpartyTips') }}
       <br>
       <br>
       <br>
       <social-sign />
-    </el-dialog>
-
-    //import SocialSign from './components/SocialSignin' components: { SocialSign },
- -->
+    </el-dialog> -->
   </div>
 </template>
 
 <script>
 import { validUsername } from '@/utils/validate'
+// import LangSelect from '@/components/LangSelect'
+// import SocialSign from './components/SocialSignin'
 
 export default {
   name: 'Login',
+  // components: { LangSelect },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
@@ -136,6 +141,7 @@ export default {
       passwordType: 'password',
       capsTooltip: false,
       loading: false,
+      showDialog: false,
       redirect: undefined,
       otherQuery: {}
     }
@@ -189,7 +195,7 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm)
-            .then((res) => {
+            .then(() => {
               this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
               this.loading = false
             })
@@ -334,6 +340,15 @@ $light_gray:#eee;
       margin: 0px auto 40px auto;
       text-align: center;
       font-weight: bold;
+    }
+
+    .set-language {
+      color: #fff;
+      position: absolute;
+      top: 3px;
+      font-size: 18px;
+      right: 0px;
+      cursor: pointer;
     }
   }
 

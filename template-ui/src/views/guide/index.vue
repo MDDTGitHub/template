@@ -1,11 +1,11 @@
 <template>
   <div class="app-container">
     <aside>
-      指南页对一些第一次进入项目的人很有用。你可以简单介绍一下项目特点。演示基于
+      {{ $t('guide.description') }}
       <a href="https://github.com/kamranahmedse/driver.js" target="_blank">driver.js.</a>
     </aside>
     <el-button icon="el-icon-question" type="primary" @click.prevent.stop="guide">
-      显示指南
+      {{ $t('guide.button') }}
     </el-button>
   </div>
 </template>

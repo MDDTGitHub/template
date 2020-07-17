@@ -1,26 +1,31 @@
 <template>
   <div class="drawer-container">
     <div>
-      <h3 class="drawer-title">Page style setting</h3>
+      <h3 class="drawer-title">{{ $t('settings.title') }}</h3>
 
       <div class="drawer-item">
-        <span>Theme Color</span>
+        <span>{{ $t('settings.theme') }}</span>
         <theme-picker style="float: right;height: 26px;margin: -3px 8px 0 0;" @change="themeChange" />
       </div>
 
       <div class="drawer-item">
-        <span>Open Tags-View</span>
+        <span>{{ $t('settings.tagsView') }}</span>
         <el-switch v-model="tagsView" class="drawer-switch" />
       </div>
 
       <div class="drawer-item">
-        <span>Fixed Header</span>
+        <span>{{ $t('settings.fixedHeader') }}</span>
         <el-switch v-model="fixedHeader" class="drawer-switch" />
       </div>
 
       <div class="drawer-item">
-        <span>Sidebar Logo</span>
+        <span>{{ $t('settings.sidebarLogo') }}</span>
         <el-switch v-model="sidebarLogo" class="drawer-switch" />
+      </div>
+
+      <div v-if="lang === 'zh'" class="drawer-item">
+        <span>菜单支持拼音搜索</span>
+        <el-switch v-model="supportPinyinSearch" class="drawer-switch" />
       </div>
 
     </div>
@@ -36,6 +41,9 @@ export default {
     return {}
   },
   computed: {
+    isShowJob() {
+      return this.$store.getters.language === 'zh'
+    },
     fixedHeader: {
       get() {
         return this.$store.state.settings.fixedHeader
@@ -68,6 +76,20 @@ export default {
           value: val
         })
       }
+    },
+    supportPinyinSearch: {
+      get() {
+        return this.$store.state.settings.supportPinyinSearch
+      },
+      set(val) {
+        this.$store.dispatch('settings/changeSetting', {
+          key: 'supportPinyinSearch',
+          value: val
+        })
+      }
+    },
+    lang() {
+      return this.$store.getters.language
     }
   },
   methods: {
@@ -103,6 +125,14 @@ export default {
 
   .drawer-switch {
     float: right
+  }
+
+  .job-link{
+    display: block;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 0;
   }
 }
 </style>

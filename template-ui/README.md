@@ -1,6 +1,3 @@
-# vue-admin
-vue前端脚手架，学习，搭建
-
 <p align="center">
   <img width="320" src="https://wpimg.wallstcn.com/ecc53a42-d79b-42e2-8852-5126b810a4c8.svg">
 </p>
@@ -150,7 +147,7 @@ Become a sponsor and get your logo on our README on GitHub with a link to your s
 
 ```bash
 # clone the project
-git clone https://github.com/PanJiaChen/vue-element-admin.git
+git clone -b i18n git@github.com:PanJiaChen/vue-element-admin.git
 
 # enter the project directory
 cd vue-element-admin

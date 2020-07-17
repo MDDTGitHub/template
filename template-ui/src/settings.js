@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'VUE-前端脚手架',
+  title: 'Vue Element Admin',
 
   /**
    * @type {boolean} true | false
@@ -24,6 +24,13 @@ module.exports = {
    * @description Whether show the logo in sidebar
    */
   sidebarLogo: false,
+
+  /**
+   * @type {boolean} true | false
+   * @description Whether support pinyin search in headerSearch
+   * Bundle size minified 47.3kb,minified + gzipped 63kb
+   */
+  supportPinyinSearch: true,
 
   /**
    * @type {string | array} 'production' | ['production', 'development']
