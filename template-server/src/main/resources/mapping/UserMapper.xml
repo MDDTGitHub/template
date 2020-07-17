@@ -11,10 +11,12 @@
       <result column="email" property="email"/>
       <result column="created" property="created"/>
       <result column="updated" property="updated"/>
+       <result column="introduction" property="introduction"/>
+       <result column="avatar" property="avatar"/>
    </resultMap>
    
    <sql id="all">
-    id,username,password,nickname,phone,del_flag,email,created,updated
+    id,username,password,nickname,phone,del_flag,email,created,updated,introduction,avatar
    </sql>
    
     
@@ -25,7 +27,7 @@
    <insert id="insertBatch"  parameterType="java.util.List">  
     insert into test_user  
     (
-     	id,username,password,nickname,phone,del_flag,email,created,updated
+     	id,username,password,nickname,phone,del_flag,email,created,updated,introduction,avatar
     )
     values  
     <foreach collection="list" item="item" index="index" separator="," >  
@@ -46,7 +48,11 @@
          
             #{item.created},
          
-            #{item.updated}
+            #{item.updated},
+
+            #{item.introduction},
+
+            #{item.avatar}
          
       )
     </foreach>  
@@ -65,6 +71,8 @@
          <if test="email != null ">email,</if>
          <if test="created != null ">created,</if>
          <if test="updated != null ">updated,</if>
+          <if test="introduction != null ">introduction,</if>
+          <if test="avatar != null ">avatar,</if>
       </trim>
       <trim prefix=" values (" suffix=")" suffixOverrides=",">
           <if test="id != null">#{id},</if>
@@ -76,6 +84,8 @@
           <if test="email != null">#{email},</if>
           <if test="created != null">#{created},</if>
           <if test="updated != null">#{updated},</if>
+          <if test="introduction != null">#{introduction},</if>
+          <if test="avatar != null">#{avatar},</if>
       </trim>
    </insert>
    
@@ -91,6 +101,8 @@
           <if test="email  != null ">email = #{email},</if>
           <if test="created  != null ">created = #{created},</if>
           <if test="updated  != null ">updated = #{updated},</if>
+           <if test="introduction  != null ">introduction = #{introduction},</if>
+           <if test="avatar  != null ">avatar = #{avatar},</if>
       </set>
       where  id = #{id} 
    </update>
@@ -108,6 +120,8 @@
           <if test="email  != null ">email = #{email},</if>
           <if test="created  != null ">created = #{created},</if>
           <if test="updated  != null ">updated = #{updated},</if>
+           <if test="introduction  != null ">introduction = #{introduction},</if>
+           <if test="avatar  != null ">avatar = #{avatar},</if>
       </set>
 	 <trim prefix="where" prefixOverrides="and |or "> 
           <if test="id  != null ">and id = #{id}</if>
@@ -119,6 +133,8 @@
           <if test="email  != null ">and email = #{email}</if>
           <if test="created  != null ">and created = #{created}</if>
           <if test="updated  != null ">and updated = #{updated}</if>
+         <if test="introduction  != null ">and introduction = #{introduction}</if>
+         <if test="avatar  != null ">and avatar = #{avatar}</if>
 	 </trim>
    </update>
    
@@ -135,6 +151,8 @@
           <if test="email  != null ">and email = #{email}</if>
           <if test="created  != null ">and created = #{created}</if>
           <if test="updated  != null ">and updated = #{updated}</if>
+        <if test="introduction  != null ">and introduction = #{introduction}</if>
+        <if test="avatar  != null ">and avatar = #{avatar}</if>
 	</trim>
     order  by   id   desc    limit 1
    </select>
@@ -151,6 +169,8 @@
           <if test="email  != null ">and email = #{email}</if>
           <if test="created  != null ">and created = #{created}</if>
           <if test="updated  != null ">and updated = #{updated}</if>
+        <if test="introduction  != null ">and introduction = #{introduction}</if>
+        <if test="avatar  != null ">and avatar = #{avatar}</if>
 	</trim>
     order  by  id  desc    
    </select>
@@ -176,6 +196,8 @@
           <if test=" email  != null ">and email = #{email}</if>
           <if test=" created  != null ">and created = #{created}</if>
           <if test=" updated  != null ">and updated = #{updated}</if>
+         <if test="introduction  != null ">and introduction = #{introduction}</if>
+         <if test="avatar  != null ">and avatar = #{avatar}</if>
 	 </trim>
      order  by id   desc  limit #{startRow},#{pageSize}
    </select>
@@ -192,6 +214,8 @@
           <if test="email  != null ">and email = #{email}</if>
           <if test="created  != null ">and created = #{created}</if>
           <if test="updated  != null ">and updated = #{updated}</if>
+        <if test="introduction  != null ">and introduction = #{introduction}</if>
+        <if test="avatar  != null ">and avatar = #{avatar}</if>
 	</trim>
    </select>
    

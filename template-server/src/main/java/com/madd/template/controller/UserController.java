@@ -134,14 +134,11 @@ public class UserController {
     /**
      * 退出登录，返回主页面，或者登录页面
      * @param token
-     * @param request
-     * @param response
      * @throws IOException
      */
-    @RequestMapping(value = "user/logout/{token}",method = RequestMethod.GET)
-    public void userLogout(@PathVariable("token") String token, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @RequestMapping(value = "user/logout",method = RequestMethod.GET)
+    public JSONObject userLogout(@RequestParam("token") String token) {
         Result result = userService.userLogout(token);
-        System.out.println("logout---"+result);
-        response.sendRedirect("http://localhost:8384/index");
+        return ResultHelper.renderAsJson(result);
     }
 }

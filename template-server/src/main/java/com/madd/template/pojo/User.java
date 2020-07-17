@@ -30,7 +30,8 @@ public class User implements Serializable
     private String email;  //
     private Date created;  //
     private Date updated;  //
-
+    private String avatar;
+    private String introduction;
     private Set<String> roles;
     
      
