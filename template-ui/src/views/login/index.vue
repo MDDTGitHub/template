@@ -128,8 +128,8 @@ export default {
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '123456',
+        username: '',
+        password: '',
         code: '',
         url: ''
       },

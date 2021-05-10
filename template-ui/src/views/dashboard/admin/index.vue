@@ -1,9 +1,9 @@
 <template>
   <div class="dashboard-editor-container">
     <!-- <github-corner class="github-corner" /> -->
-    <el-button icon="el-icon-question" type="primary" @click.prevent.stop="guide">
+    <!-- <el-button icon="el-icon-question" type="primary" @click.prevent.stop="guide">
       显示指南
-    </el-button>
+    </el-button> -->
     <!-- <panel-group @handleSetLineChartData="handleSetLineChartData" />
 
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
